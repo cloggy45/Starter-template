@@ -1,7 +1,7 @@
-import { DefaultLayout } from "@component/layout/DefaultLayout";
+import { DefaultLayout } from "@component/layout/defaultLayout";
 import { FeatureSectionWithCards } from "@component/features/FeatureSectionWithCards";
 
-export default function PricingPage() {
+export default function FeaturesPage() {
   return (
     <DefaultLayout>
       <FeatureSectionWithCards />

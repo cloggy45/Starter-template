@@ -1,7 +1,46 @@
-const Sidebar = () => {
+import { signOut } from "next-auth/react";
+import Link from "next/link";
+import Image from "next/image";
+import { Route } from "@component/layout/defaultLayout";
+
+function LogoutButton() {
+  return (
+    <li>
+      <button
+        onClick={() => signOut({ callbackUrl: "/" })}
+        className="flex items-center gap-x-2 rounded-lg p-2 text-gray-600  duration-150 hover:bg-gray-50 active:bg-gray-100"
+      >
+        <div className="text-gray-500">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="h-5 w-5"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"
+            />
+          </svg>
+        </div>
+        Logout
+      </button>
+    </li>
+  );
+}
+
+type SidebarProps = {
+  imageUrl: string;
+  fullname: string;
+};
+
+const Sidebar = ({ fullname, imageUrl }: SidebarProps) => {
   const navigation = [
     {
-      href: "javascript:void(0)",
+      href: Route.DASHBOARD.PARENT,
       name: "Overview",
       icon: (
         <svg
@@ -21,7 +60,7 @@ const Sidebar = () => {
       ),
     },
     {
-      href: "javascript:void(0)",
+      href: "#",
       name: "Integration",
       icon: (
         <svg
@@ -41,7 +80,7 @@ const Sidebar = () => {
       ),
     },
     {
-      href: "javascript:void(0)",
+      href: "#",
       name: "Plans",
       icon: (
         <svg
@@ -61,7 +100,7 @@ const Sidebar = () => {
       ),
     },
     {
-      href: "javascript:void(0)",
+      href: "#",
       name: "Templates",
       icon: (
         <svg
@@ -84,7 +123,7 @@ const Sidebar = () => {
 
   const navsFooter = [
     {
-      href: "javascript:void(0)",
+      href: "#",
       name: "Help",
       icon: (
         <svg
@@ -104,7 +143,7 @@ const Sidebar = () => {
       ),
     },
     {
-      href: "javascript:void(0)",
+      href: Route.DASHBOARD.SETTINGS,
       name: "Settings",
       icon: (
         <svg
@@ -128,26 +167,6 @@ const Sidebar = () => {
         </svg>
       ),
     },
-    {
-      href: "javascript:void(0)",
-      name: "Logout",
-      icon: (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="h-5 w-5"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"
-          />
-        </svg>
-      ),
-    },
   ];
 
   return (
@@ -155,25 +174,27 @@ const Sidebar = () => {
       <nav className="fixed left-0 top-0 h-full w-full space-y-8 border-r bg-white sm:w-80">
         <div className="flex h-full flex-col">
           <div className="flex h-20 items-center px-8">
-            <a href="javascript:void(0)" className="flex-none">
-              <img
+            <Link href={"#"} className="flex-none">
+              <Image
+                alt={"logo"}
                 src="https://floatui.com/logo.svg"
                 width={140}
+                height={50}
                 className="mx-auto"
               />
-            </a>
+            </Link>
           </div>
           <div className="flex h-full flex-1 flex-col overflow-auto">
             <ul className="flex-1 px-4 text-sm font-medium">
               {navigation.map((item, idx) => (
                 <li key={idx}>
-                  <a
+                  <Link
                     href={item.href}
                     className="flex items-center gap-x-2 rounded-lg p-2 text-gray-600  duration-150 hover:bg-gray-50 active:bg-gray-100"
                   >
                     <div className="text-gray-500">{item.icon}</div>
                     {item.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -181,32 +202,37 @@ const Sidebar = () => {
               <ul className="px-4 pb-4 text-sm font-medium">
                 {navsFooter.map((item, idx) => (
                   <li key={idx}>
-                    <a
+                    <Link
                       href={item.href}
                       className="flex items-center gap-x-2 rounded-lg p-2 text-gray-600  duration-150 hover:bg-gray-50 active:bg-gray-100"
                     >
                       <div className="text-gray-500">{item.icon}</div>
                       {item.name}
-                    </a>
+                    </Link>
                   </li>
                 ))}
+                <LogoutButton />
               </ul>
               <div className="border-t px-4 py-4">
                 <div className="flex items-center gap-x-4">
-                  <img
-                    src="https://randomuser.me/api/portraits/women/79.jpg"
+                  <Image
+                    alt={"profile image"}
+                    src={imageUrl}
+                    width={100}
+                    priority
+                    height={100}
                     className="h-12 w-12 rounded-full"
                   />
                   <div>
                     <span className="block text-sm font-semibold text-gray-700">
-                      Alivika tony
+                      {fullname}
                     </span>
-                    <a
-                      href="javascript:void(0)"
+                    <Link
+                      href="#"
                       className="mt-px block text-xs text-gray-600 hover:text-indigo-600"
                     >
                       View profile
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>

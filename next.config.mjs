@@ -18,5 +18,28 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+        port: "",
+        pathname: "/a/**",
+      },
+      {
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com",
+        port: "",
+        pathname: "/u/**",
+      },
+      {
+        protocol: "https",
+        hostname: "pbs.twimg.com",
+        port: "",
+        pathname: "/profile_images/**",
+      },
+    ],
+  },
 };
 export default config;

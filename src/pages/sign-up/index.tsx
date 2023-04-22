@@ -1,9 +1,9 @@
-import { DefaultLayout } from "@component/layout/DefaultLayout";
+import { DefaultLayout } from "@component/layout/defaultLayout";
 import { SignUpWithLeftBackground } from "@component/authentication/SignUpWithLeftBackground";
 
-export default function GetStarted() {
+export default function GetStartedPage() {
   return (
-    <DefaultLayout hideNavBar={true}>
+    <DefaultLayout showNavbar={false}>
       <SignUpWithLeftBackground />
     </DefaultLayout>
   );

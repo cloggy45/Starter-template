@@ -1,25 +1,29 @@
 import { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { Route } from "@component/layout/defaultLayout";
 
 export const LoggedOutNavBar = () => {
   const [state, setState] = useState(false);
 
   const navigation = [
-    { title: "Features", path: "/features" },
-    { title: "Pricing", path: "/pricing" },
+    { title: "Features", path: Route.FEATURES },
+    { title: "Pricing", path: Route.PRICING },
+    { title: "FAQ", path: Route.FAQ },
   ];
 
   return (
     <nav className="w-full border-b bg-white md:static md:border-0">
       <div className="mx-auto max-w-screen-xl items-center px-4 md:flex md:px-8">
         <div className="flex items-center justify-between py-3 md:block md:py-5">
-          <a href="javascript:void(0)">
-            <img
+          <Link href="#">
+            <Image
               src="https://www.floatui.com/logo.svg"
               width={120}
               height={50}
               alt="Float UI logo"
             />
-          </a>
+          </Link>
           <div className="md:hidden">
             <button
               className="rounded-md p-2 text-gray-700 outline-none focus:border focus:border-gray-400"
@@ -66,19 +70,19 @@ export const LoggedOutNavBar = () => {
             {navigation.map((item, idx) => {
               return (
                 <li key={idx} className="text-gray-600 hover:text-indigo-600">
-                  <a href={item.path}>{item.title}</a>
+                  <Link href={item.path}>{item.title}</Link>
                 </li>
               );
             })}
           </ul>
         </div>
         <div className="hidden md:inline-block">
-          <a
-            href="/get-started"
+          <Link
+            href={Route.SIGNUP}
             className="rounded-md bg-indigo-600 px-4 py-3 text-white shadow hover:bg-indigo-700"
           >
             Get Started
-          </a>
+          </Link>
         </div>
       </div>
     </nav>

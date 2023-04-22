@@ -1,3 +1,33 @@
+import { useRouter } from "next/router";
+import { api } from "@utils/api";
+import { useSession } from "next-auth/react";
+import { Route } from "@component/layout/defaultLayout";
+
+const UpgradeButton = () => {
+  const { status } = useSession();
+  const { mutateAsync: createCheckoutSession } =
+    api.stripe.createCheckoutSession.useMutation();
+  const { push } = useRouter();
+  return (
+    <button
+      onClick={async () => {
+        // TODO investigate redirect to checkout after logging in
+        if (status === "authenticated") {
+          const { checkoutUrl } = await createCheckoutSession();
+          if (checkoutUrl && status === "authenticated") {
+            void push(checkoutUrl);
+          }
+        } else {
+          void push(Route.SIGNUP);
+        }
+      }}
+      className="w-full rounded-lg bg-indigo-600 px-3 py-3 text-sm font-semibold text-white duration-150 hover:bg-indigo-500 active:bg-indigo-700"
+    >
+      Get Started
+    </button>
+  );
+};
+
 export function PricingTwoPanels() {
   const plans = [
     {
@@ -69,9 +99,7 @@ export function PricingTwoPanels() {
                   <span className="text-xl font-normal text-gray-600">/mo</span>
                 </div>
                 <p>{item.desc}</p>
-                <button className="w-full rounded-lg bg-indigo-600 px-3 py-3 text-sm font-semibold text-white duration-150 hover:bg-indigo-500 active:bg-indigo-700">
-                  Get Started
-                </button>
+                <UpgradeButton />
               </div>
               <ul className="space-y-3 p-4 py-8 md:p-8">
                 <li className="pb-2 font-medium text-gray-800">
@@ -86,9 +114,9 @@ export function PricingTwoPanels() {
                       fill="currentColor"
                     >
                       <path
-                        fill-rule="evenodd"
+                        fillRule="evenodd"
                         d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                        clip-rule="evenodd"
+                        clipRule="evenodd"
                       ></path>
                     </svg>
                     {featureItem}

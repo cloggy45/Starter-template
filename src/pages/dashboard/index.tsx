@@ -1,10 +1,14 @@
-import { DefaultLayout } from "@component/layout/DefaultLayout";
-import Sidebar from "@component/sidebar/Sidebar";
+import { DashboardLayout } from "@component/layout/dashboardLayout";
+import { SectionHeader } from "@component/section/SectionHeader";
 
-export default function PricingPage() {
+export default function DashboardPage() {
   return (
-    <DefaultLayout hideNavBar={true} hideFooter={true}>
-      <Sidebar />
-    </DefaultLayout>
+    <>
+      <SectionHeader header={"Overview"} />
+    </>
   );
 }
+
+DashboardPage.getLayout = function getLayout(page: JSX.Element) {
+  return <DashboardLayout>{page}</DashboardLayout>;
+};

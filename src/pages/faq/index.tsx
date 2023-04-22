@@ -1,10 +1,10 @@
 import { DefaultLayout } from "@component/layout/defaultLayout";
-import { Login } from "@component/authentication/Login";
+import { PrimaryFaq } from "@component/faq/PrimaryFaq";
 
-export default function LoginPage() {
+export default function FaqPage() {
   return (
     <DefaultLayout>
-      <Login />
+      <PrimaryFaq />
     </DefaultLayout>
   );
 }

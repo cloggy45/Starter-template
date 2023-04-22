@@ -1,5 +1,5 @@
 import { PricingTwoPanels } from "@component/pricing/PricingTwoPanels";
-import { DefaultLayout } from "@component/layout/DefaultLayout";
+import { DefaultLayout } from "@component/layout/defaultLayout";
 
 export default function PricingPage() {
   return (
