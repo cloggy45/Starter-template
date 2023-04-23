@@ -9,14 +9,16 @@ interface DashboardLayoutProps {
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   const { data: session } = useSession();
   const user = session?.user;
-  console.log("Loading", user);
+
   return (
     <div className={"flex"}>
       <div>
         <Sidebar fullname={user?.name ?? ""} imageUrl={user?.image ?? ""} />
       </div>
       <div className={"ml-80 flex-1"}>
-        <main>{children}</main>
+        <main className={"mx-auto max-w-screen-xl px-4 md:px-8"}>
+          {children}
+        </main>
       </div>
     </div>
   );

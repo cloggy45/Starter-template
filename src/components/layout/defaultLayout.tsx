@@ -16,6 +16,7 @@ export const Route = {
     PARENT: "/dashboard",
     OVERVIEW: "/dashboard/overview",
     SETTINGS: "/dashboard/settings",
+    PLANS: "/dashboard/plans",
   },
   PRICING: "/pricing",
   SIGNUP: "/sign-up",
@@ -34,8 +35,6 @@ export function DefaultLayout({
   const router = useRouter();
   const currentUrl = router.asPath;
 
-  // TODO Add loading spinner
-  // TODO Research route guards
   if (
     (!session && currentUrl === Route.DASHBOARD.PARENT) ||
     currentUrl === Route.ROOT

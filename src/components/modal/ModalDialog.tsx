@@ -17,8 +17,6 @@ export const ModalDialog = ({
   title,
   content,
 }: ModalDialogProps) => {
-  console.log("loading", showModal);
-
   return showModal ? (
     <div className="fixed inset-0 z-10 overflow-y-auto">
       <div

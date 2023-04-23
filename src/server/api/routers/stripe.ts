@@ -1,52 +1,59 @@
 import { env } from "~/env.mjs";
 import { getOrCreateStripeCustomerIdForUser } from "@server/stripe/stripe-webhook-handlers";
 import { createTRPCRouter, protectedProcedure } from "@server/api/trpc";
+import { z } from "zod";
 
 export const stripeRouter = createTRPCRouter({
-  createCheckoutSession: protectedProcedure.mutation(async ({ ctx }) => {
-    const { stripe, session, prisma, req } = ctx;
+  createCheckoutSession: protectedProcedure
+    .input(
+      z.object({
+        priceId: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { stripe, session, prisma, req } = ctx;
 
-    const customerId = await getOrCreateStripeCustomerIdForUser({
-      prisma,
-      stripe,
-      userId: session.user?.id,
-    });
+      const customerId = await getOrCreateStripeCustomerIdForUser({
+        prisma,
+        stripe,
+        userId: session.user?.id,
+      });
 
-    if (!customerId) {
-      throw new Error("Could not create customer");
-    }
+      if (!customerId) {
+        throw new Error("Could not create customer");
+      }
 
-    const baseUrl =
-      env.NODE_ENV === "development"
-        ? `http://${req.headers.host ?? "localhost:3000"}`
-        : `https://${req.headers.host ?? env.NEXTAUTH_URL}`;
+      const baseUrl =
+        env.NODE_ENV === "development"
+          ? `http://${req.headers.host ?? "localhost:3000"}`
+          : `https://${req.headers.host ?? env.NEXTAUTH_URL}`;
 
-    const checkoutSession = await stripe.checkout.sessions.create({
-      customer: customerId,
-      client_reference_id: session.user?.id,
-      payment_method_types: ["card"],
-      mode: "subscription",
-      line_items: [
-        {
-          price: env.STRIPE_PRICE_ID,
-          quantity: 1,
+      const checkoutSession = await stripe.checkout.sessions.create({
+        customer: customerId,
+        client_reference_id: session.user?.id,
+        payment_method_types: ["card"],
+        mode: "subscription",
+        line_items: [
+          {
+            price: input.priceId,
+            quantity: 1,
+          },
+        ],
+        success_url: `${baseUrl}/dashboard?checkoutSuccess=true`,
+        cancel_url: `${baseUrl}/dashboard?checkoutCanceled=true`,
+        subscription_data: {
+          metadata: {
+            userId: session.user?.id,
+          },
         },
-      ],
-      success_url: `${baseUrl}/dashboard?checkoutSuccess=true`,
-      cancel_url: `${baseUrl}/dashboard?checkoutCanceled=true`,
-      subscription_data: {
-        metadata: {
-          userId: session.user?.id,
-        },
-      },
-    });
+      });
 
-    if (!checkoutSession) {
-      throw new Error("Could not create checkout session");
-    }
+      if (!checkoutSession) {
+        throw new Error("Could not create checkout session");
+      }
 
-    return { checkoutUrl: checkoutSession.url };
-  }),
+      return { checkoutUrl: checkoutSession.url };
+    }),
   createBillingPortalSession: protectedProcedure.mutation(async ({ ctx }) => {
     const { stripe, session, prisma, req } = ctx;
 

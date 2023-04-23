@@ -2,25 +2,36 @@ import { useRouter } from "next/router";
 import { api } from "@utils/api";
 import { useSession } from "next-auth/react";
 import { Route } from "@component/layout/defaultLayout";
+import { PricingPlan } from "@component/pricing/PricingPlanFeatures";
 
-const UpgradeButton = () => {
+type UpgradeButtonProps = {
+  priceId: string;
+};
+
+const UpgradeButton = ({ priceId }: UpgradeButtonProps) => {
   const { status } = useSession();
+  const { push } = useRouter();
+
   const { mutateAsync: createCheckoutSession } =
     api.stripe.createCheckoutSession.useMutation();
-  const { push } = useRouter();
+
+  function handleUpgrade(priceId: string) {
+    return async () => {
+      // TODO investigate redirect to checkout after logging in
+      if (status === "authenticated") {
+        const { checkoutUrl } = await createCheckoutSession({ priceId });
+        if (checkoutUrl && status === "authenticated") {
+          void push(checkoutUrl);
+        }
+      } else {
+        void push(Route.SIGNUP);
+      }
+    };
+  }
+
   return (
     <button
-      onClick={async () => {
-        // TODO investigate redirect to checkout after logging in
-        if (status === "authenticated") {
-          const { checkoutUrl } = await createCheckoutSession();
-          if (checkoutUrl && status === "authenticated") {
-            void push(checkoutUrl);
-          }
-        } else {
-          void push(Route.SIGNUP);
-        }
-      }}
+      onClick={() => handleUpgrade(priceId)}
       className="w-full rounded-lg bg-indigo-600 px-3 py-3 text-sm font-semibold text-white duration-150 hover:bg-indigo-500 active:bg-indigo-700"
     >
       Get Started
@@ -28,40 +39,11 @@ const UpgradeButton = () => {
   );
 };
 
-export function PricingTwoPanels() {
-  const plans = [
-    {
-      name: "Startup",
-      desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      price: 12,
-      isMostPop: false,
-      features: [
-        "Curabitur faucibus",
-        "massa ut pretium maximus",
-        "Sed posuere nisi",
-        "Pellentesque eu nibh et neque",
-        "Suspendisse a leo",
-        "Praesent quis venenatis ipsum",
-        "Duis non diam vel tortor",
-      ],
-    },
-    {
-      name: "Enterprise",
-      desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      price: 32,
-      isMostPop: true,
-      features: [
-        "Curabitur faucibus",
-        "massa ut pretium maximus",
-        "Sed posuere nisi",
-        "Pellentesque eu nibh et neque",
-        "Suspendisse a leo",
-        "Praesent quis venenatis ipsum",
-        "Duis non diam vel tortor",
-      ],
-    },
-  ];
+type LoggedOutPlansProps = {
+  pricingPlans: Required<PricingPlan>[];
+};
 
+export function LoggedOutPlans({ pricingPlans }: LoggedOutPlansProps) {
   return (
     <section className="relative py-14">
       <div
@@ -85,11 +67,11 @@ export function PricingTwoPanels() {
           </div>
         </div>
         <div className="mt-16 justify-center sm:flex">
-          {plans.map((item, idx) => (
+          {pricingPlans.map((item, idx) => (
             <div
               key={idx}
               className={`relative mt-6 flex flex-1 flex-col items-stretch sm:mt-0 sm:max-w-md sm:rounded-xl ${
-                item.isMostPop ? "bg-white shadow-lg sm:border" : ""
+                item.isMostPopular ? "bg-white shadow-lg sm:border" : ""
               }`}
             >
               <div className="space-y-4 border-b p-4 py-8 md:p-8">
@@ -98,8 +80,8 @@ export function PricingTwoPanels() {
                   ${item.price}{" "}
                   <span className="text-xl font-normal text-gray-600">/mo</span>
                 </div>
-                <p>{item.desc}</p>
-                <UpgradeButton />
+                <p>{item.description}</p>
+                <UpgradeButton priceId={item.id} />
               </div>
               <ul className="space-y-3 p-4 py-8 md:p-8">
                 <li className="pb-2 font-medium text-gray-800">

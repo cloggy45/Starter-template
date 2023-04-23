@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { Route } from "@component/layout/defaultLayout";
 import { useState } from "react";
 import { ModalDialog } from "@component/modal/ModalDialog";
+import { toast } from "react-toastify";
 
 export default function SettingsPage() {
   const [showModal, setShowModal] = useState(false);
@@ -14,14 +15,25 @@ export default function SettingsPage() {
   const { data: sessionData } = useSession();
   const userId = sessionData?.user.id;
 
+  const { mutateAsync: stripeBillingPortal } =
+    api.stripe.createBillingPortalSession.useMutation();
+
   const mutation = api.user.deleteUser.useMutation({
     onSuccess: () => {
       void push(Route.FEATURES);
+    },
+    onError: () => {
+      toast.error("Failed to delete account, try again");
     },
   });
 
   function deleteAccount() {
     mutation.mutate({ id: userId as string });
+  }
+
+  async function manageSubscriptions() {
+    const portal = await stripeBillingPortal();
+    window.location.href = portal.billingPortalUrl;
   }
 
   return (
@@ -38,13 +50,25 @@ export default function SettingsPage() {
         callback={deleteAccount}
         denyLabel={"Cancel"}
       />
-      <Button
-        handleClick={() => {
-          setShowModal(true);
-        }}
-        label={"Delete Account"}
-        variant={"md"}
-      />
+      <ul className={"px-6"}>
+        <li className={"p-2"}>
+          <Button
+            variant={"secondary"}
+            size={"sm"}
+            handleClick={manageSubscriptions}
+            label={"Manage Subscription"}
+          />
+        </li>
+        <li className={"p-2"}>
+          <Button
+            handleClick={() => {
+              setShowModal(true);
+            }}
+            label={"Delete Account"}
+            size={"sm"}
+          />
+        </li>
+      </ul>
     </div>
   );
 }

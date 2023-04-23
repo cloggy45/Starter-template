@@ -1,10 +1,17 @@
-import { PricingTwoPanels } from "@component/pricing/PricingTwoPanels";
+import { LoggedOutPlans } from "@component/pricing/LoggedOutPlans";
 import { DefaultLayout } from "@component/layout/defaultLayout";
+import { PricingPlan } from "@component/pricing/PricingPlanFeatures";
 
-export default function PricingPage() {
+type PricingPageProps = {
+  plans: Required<PricingPlan>[];
+};
+
+export default function PricingPage({ plans }: PricingPageProps) {
   return (
     <DefaultLayout>
-      <PricingTwoPanels />
+      <LoggedOutPlans pricingPlans={plans} />
     </DefaultLayout>
   );
 }
+
+export { getStaticProps } from "@lib/getPricingPlans";

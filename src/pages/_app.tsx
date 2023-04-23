@@ -4,20 +4,19 @@ import { SessionProvider } from "next-auth/react";
 import { NextPage } from "next";
 import { AppProps } from "next/app";
 import { api } from "@utils/api";
+import { ToastContainer } from "react-toastify";
 
 import "~/styles/globals.css";
+import "react-toastify/dist/ReactToastify.css";
 
-// No changes to this type
 type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
 
-// Add generic type
 type AppPropsWithLayout<P> = AppProps<P> & {
   Component: NextPageWithLayout<P>;
 };
 
-// Pass `{ session: Session; }` type as generic
 function MyApp({
   Component,
   pageProps,
@@ -28,6 +27,7 @@ function MyApp({
     <SessionProvider session={pageProps.session}>
       {getLayout(
         <>
+          <ToastContainer />
           <Component {...pageProps} />
         </>
       )}

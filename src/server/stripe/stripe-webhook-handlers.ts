@@ -1,5 +1,5 @@
-import type { PrismaClient } from "@prisma/client";
 import type Stripe from "stripe";
+import type { PrismaClient } from "@prisma/client";
 
 // retrieves a Stripe customer id for a given user if it exists or creates a new one
 export const getOrCreateStripeCustomerIdForUser = async ({
