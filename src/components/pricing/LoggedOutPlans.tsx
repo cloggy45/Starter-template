@@ -15,18 +15,16 @@ const UpgradeButton = ({ priceId }: UpgradeButtonProps) => {
   const { mutateAsync: createCheckoutSession } =
     api.stripe.createCheckoutSession.useMutation();
 
-  function handleUpgrade(priceId: string) {
-    return async () => {
-      // TODO investigate redirect to checkout after logging in
-      if (status === "authenticated") {
-        const { checkoutUrl } = await createCheckoutSession({ priceId });
-        if (checkoutUrl && status === "authenticated") {
-          void push(checkoutUrl);
-        }
-      } else {
-        void push(Route.SIGNUP);
+  async function handleUpgrade(priceId: string) {
+    // TODO investigate redirect to checkout after logging in
+    if (status === "authenticated") {
+      const { checkoutUrl } = await createCheckoutSession({ priceId });
+      if (checkoutUrl && status === "authenticated") {
+        void push(checkoutUrl);
       }
-    };
+    } else {
+      void push(Route.SIGNUP);
+    }
   }
 
   return (

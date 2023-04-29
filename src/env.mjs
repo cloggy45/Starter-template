@@ -30,7 +30,6 @@ const server = z.object({
 
   STRIPE_SECRET_KEY: z.string(),
   STRIPE_WEBHOOK_SECRET: z.string(),
-  STRIPE_PRICE_ID: z.string(),
 });
 
 /**
@@ -58,7 +57,6 @@ const processEnv = {
   GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
   TWITTER_CLIENT_ID: process.env.TWITTER_CLIENT_ID,
   TWITTER_CLIENT_SECRET: process.env.TWITTER_CLIENT_SECRET,
-  STRIPE_PRICE_ID: process.env.STRIPE_PRICE_ID,
   STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
   STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
   // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
