@@ -78,7 +78,7 @@ export const LoggedOutNavBar = () => {
         </div>
         <div className="hidden md:inline-block">
           <Link
-            href={Route.FEATURES}
+            href={Route.LOGIN}
             className="rounded-md bg-indigo-600 px-4 py-3 text-white shadow hover:bg-indigo-700"
           >
             Get Started

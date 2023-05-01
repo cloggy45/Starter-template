@@ -1,12 +1,17 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { TwitterLoginButton } from "@component/authentication/SSO/TwitterLoginButton";
-import { GithubLoginButton } from "@component/authentication/SSO/GithubLoginButton";
-import { GoogleLoginButton } from "@component/authentication/SSO/GoogleLoginButton";
+import { CommonProviderOptions } from "next-auth/src/providers";
 import { Route } from "@component/layout/defaultLayout";
+import { OAuthButton } from "@component/authentication/OAuthButton";
+import { MagicLinkForm } from "@component/authentication/MagicLinkForm";
 
-export function SignUpWithLeftBackground() {
+type SignUpProps = {
+  oauthProviders: CommonProviderOptions[];
+  csrfToken: string;
+};
+
+export function SignUp({ oauthProviders }: SignUpProps) {
   return (
     <main className="flex w-full">
       <div className="relative hidden h-screen flex-1 items-center justify-center bg-gray-900 lg:flex">
@@ -61,10 +66,8 @@ export function SignUpWithLeftBackground() {
               </p>
             </div>
           </div>
-          <div className="grid grid-cols-3 gap-x-3">
-            <GoogleLoginButton />
-            <TwitterLoginButton />
-            <GithubLoginButton />
+          <div className="grid grid-cols-2 gap-x-3">
+            <OAuthButton providers={Object.values(oauthProviders)} />
           </div>
           <div className="relative">
             <span className="block h-px w-full bg-gray-300"></span>
@@ -72,35 +75,13 @@ export function SignUpWithLeftBackground() {
               Or continue with
             </p>
           </div>
-          <form onSubmit={(e) => e.preventDefault()} className="space-y-5">
-            <div>
-              <label className="font-medium">Name</label>
-              <input
-                type="text"
-                required
-                className="mt-2 w-full rounded-lg border bg-transparent px-3 py-2 text-gray-500 shadow-sm outline-none focus:border-indigo-600"
-              />
-            </div>
-            <div>
-              <label className="font-medium">Email</label>
-              <input
-                type="email"
-                required
-                className="mt-2 w-full rounded-lg border bg-transparent px-3 py-2 text-gray-500 shadow-sm outline-none focus:border-indigo-600"
-              />
-            </div>
-            <div>
-              <label className="font-medium">Password</label>
-              <input
-                type="password"
-                required
-                className="mt-2 w-full rounded-lg border bg-transparent px-3 py-2 text-gray-500 shadow-sm outline-none focus:border-indigo-600"
-              />
-            </div>
-            <button className="w-full rounded-lg bg-indigo-600 px-4 py-2 font-medium text-white duration-150 hover:bg-indigo-500 active:bg-indigo-600">
-              Create account
-            </button>
-          </form>
+          <MagicLinkForm />
+          <div className="relative">
+            <span className="block h-px w-full bg-gray-300"></span>
+            <p className="absolute inset-x-0 -top-2 mx-auto inline-block w-fit bg-white px-2 text-sm">
+              We’ll email you a magic code for a password-free sign-in.
+            </p>
+          </div>
         </div>
       </div>
     </main>

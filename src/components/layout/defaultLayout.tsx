@@ -1,9 +1,6 @@
-import { useSession } from "next-auth/react";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import { LoggedOutNavBar } from "@component/navbar/logged-out/LoggedOutNavBar";
 import { Footer } from "@component/navbar/footer/footer";
-import { Login } from "@component/authentication/Login";
 
 interface DefaultLayoutProps {
   showNavbar?: boolean;
@@ -14,13 +11,12 @@ interface DefaultLayoutProps {
 export const Route = {
   DASHBOARD: {
     PARENT: "/dashboard",
-    OVERVIEW: "/dashboard/overview",
     SETTINGS: "/dashboard/settings",
     PLANS: "/dashboard/plans",
   },
   PRICING: "/pricing",
   SIGNUP: "/sign-up",
-  LOGIN: "/login",
+  LOGIN: "/auth/signin",
   FEATURES: "/features",
   FAQ: "/faq",
   ROOT: "/",
@@ -31,17 +27,6 @@ export function DefaultLayout({
   showNavbar = true,
   showFooter = true,
 }: DefaultLayoutProps) {
-  const { data: session } = useSession();
-  const router = useRouter();
-  const currentUrl = router.asPath;
-
-  if (
-    (!session && currentUrl === Route.DASHBOARD.PARENT) ||
-    currentUrl === Route.ROOT
-  ) {
-    return <Login />;
-  }
-
   return (
     <>
       <Head>

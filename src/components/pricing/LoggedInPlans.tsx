@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { api } from "@utils/api";
 import { Route } from "@component/layout/defaultLayout";
 import { PricingPlan } from "@component/pricing/PricingPlanFeatures";
+import CurrencyDisplay from "@component/CurrencyDisplay";
 
 type LoggedInPlansProps = {
   pricingPlans: Required<PricingPlan>[];
@@ -52,7 +53,10 @@ export function LoggedInPlans({ pricingPlans }: LoggedInPlansProps) {
               <div>
                 <span className="font-medium text-indigo-600">{item.name}</span>
                 <div className="mt-4 text-3xl font-semibold text-gray-800">
-                  ${item.price}{" "}
+                  <CurrencyDisplay
+                    value={item.price ?? 0}
+                    currency={item.currency}
+                  />
                   <span className="text-xl font-normal text-gray-600">/mo</span>
                 </div>
               </div>

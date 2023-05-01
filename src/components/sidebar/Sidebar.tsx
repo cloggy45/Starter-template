@@ -7,7 +7,7 @@ function LogoutButton() {
   return (
     <li>
       <button
-        onClick={() => signOut({ callbackUrl: "/" })}
+        onClick={() => signOut({ callbackUrl: Route.LOGIN })}
         className="flex items-center gap-x-2 rounded-lg p-2 text-gray-600  duration-150 hover:bg-gray-50 active:bg-gray-100"
       >
         <div className="text-gray-500">
@@ -38,6 +38,9 @@ type SidebarProps = {
 };
 
 const Sidebar = ({ fullname, imageUrl }: SidebarProps) => {
+  if (imageUrl.length === 0) {
+    imageUrl = "/Portrait_Placeholder.png";
+  }
   const navigation = [
     {
       href: Route.DASHBOARD.PARENT,

@@ -29,6 +29,7 @@ export const userRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       const { prisma } = ctx;
+      const userId = input.id;
 
       const accountId = await prisma.account
         .findFirst({
@@ -41,19 +42,17 @@ export const userRouter = createTRPCRouter({
         })
         .then((result) => result?.id);
 
-      if (!accountId) {
-        throw new Error("Could not find account");
+      if (accountId) {
+        await prisma.account.delete({
+          where: {
+            id: accountId,
+          },
+        });
       }
-
-      await prisma.account.delete({
-        where: {
-          id: accountId,
-        },
-      });
 
       await prisma.user.delete({
         where: {
-          id: input.id,
+          id: userId,
         },
       });
     }),

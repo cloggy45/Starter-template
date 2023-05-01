@@ -20,6 +20,17 @@ import { type Session } from "next-auth";
 import { getServerAuthSession } from "@server/auth";
 import { prisma } from "@server/db";
 import { stripe } from "@server/stripe/client";
+/**
+ * 2. INITIALIZATION
+ *
+ * This is where the tRPC API is initialized, connecting the context and transformer. We also parse
+ * ZodErrors so that you get typesafety on the frontend if your procedure fails due to validation
+ * errors on the backend.
+ */
+import { inferAsyncReturnType, initTRPC, TRPCError } from "@trpc/server";
+import superjson from "superjson";
+import { ZodError } from "zod";
+import { NextApiRequest, NextApiResponse } from "next";
 
 type CreateContextOptions = {
   session: Session | null;
@@ -48,6 +59,8 @@ const createInnerTRPCContext = (opts: CreateContextOptions) => {
   };
 };
 
+export type Context = inferAsyncReturnType<typeof createInnerTRPCContext>;
+
 /**
  * This is the actual context you will use in your router. It will be used to process every request
  * that goes through your tRPC endpoint.
@@ -66,18 +79,6 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
     res,
   });
 };
-
-/**
- * 2. INITIALIZATION
- *
- * This is where the tRPC API is initialized, connecting the context and transformer. We also parse
- * ZodErrors so that you get typesafety on the frontend if your procedure fails due to validation
- * errors on the backend.
- */
-import { initTRPC, TRPCError } from "@trpc/server";
-import superjson from "superjson";
-import { ZodError } from "zod";
-import { NextApiRequest, NextApiResponse } from "next";
 
 const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: superjson,
