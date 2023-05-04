@@ -10,7 +10,7 @@ type ButtonProps = {
   size?: ButtonSize;
   label: string;
   handleClick?: MouseEventHandler;
-  isLoading: boolean;
+  isLoading?: boolean;
   type?: "submit" | "reset" | "button" | undefined;
 };
 

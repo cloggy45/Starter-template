@@ -1,13 +1,14 @@
+import { useState } from "react";
+import { toast } from "react-toastify";
+import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 import { SectionHeader } from "@component/section/SectionHeader";
 import { DashboardLayout } from "@component/layout/dashboardLayout";
 import { Button } from "@component/buttons/Button";
-import { useSession } from "next-auth/react";
 import { api } from "@utils/api";
-import { useRouter } from "next/router";
 import { Route } from "@component/layout/defaultLayout";
-import { useState } from "react";
 import { ModalDialog } from "@component/modal/ModalDialog";
-import { toast } from "react-toastify";
+import { requireAuthRoute } from "@utils/requireAuthRoute";
 
 export default function SettingsPage() {
   const [showModal, setShowModal] = useState(false);
@@ -76,3 +77,7 @@ export default function SettingsPage() {
 SettingsPage.getLayout = function getLayout(page: JSX.Element) {
   return <DashboardLayout>{page}</DashboardLayout>;
 };
+
+export async function getServerSideProps(context: any) {
+  return requireAuthRoute(context);
+}

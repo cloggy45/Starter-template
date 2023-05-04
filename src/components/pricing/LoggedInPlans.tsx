@@ -4,6 +4,7 @@ import { api } from "@utils/api";
 import { Route } from "@component/layout/defaultLayout";
 import { PricingPlan } from "@component/pricing/PricingPlanFeatures";
 import CurrencyDisplay from "@component/CurrencyDisplay";
+import { Button } from "@component/buttons/Button";
 
 type LoggedInPlansProps = {
   pricingPlans: Required<PricingPlan>[];
@@ -13,9 +14,7 @@ export function LoggedInPlans({ pricingPlans }: LoggedInPlansProps) {
   const { status } = useSession();
   const { push } = useRouter();
 
-  // TODO add formatting for currency
-  // TODO add i18n support
-  const { mutateAsync: createCheckoutSession } =
+  const { mutateAsync: createCheckoutSession, isLoading } =
     api.stripe.createCheckoutSession.useMutation();
 
   async function handleUpgrade(priceId: string) {
@@ -79,14 +78,12 @@ export function LoggedInPlans({ pricingPlans }: LoggedInPlansProps) {
                   </li>
                 ))}
               </ul>
-              <div className="flex flex-1 items-end">
-                <button
-                  onClick={() => handleUpgrade(item.id)}
-                  className="w-full rounded-lg bg-indigo-600 px-3 py-3 text-sm font-semibold text-white duration-150 hover:bg-indigo-500 active:bg-indigo-700"
-                >
-                  Get Started
-                </button>
-              </div>
+              <div className="flex flex-1 items-end"></div>
+              <Button
+                isLoading={isLoading}
+                handleClick={() => handleUpgrade(item.id)}
+                label={"Get Started"}
+              />
             </div>
           ))}
         </div>

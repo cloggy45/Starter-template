@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Route } from "@component/layout/defaultLayout";
 
-export const LoggedOutNavBar = () => {
+export function NavigationBar() {
   const [state, setState] = useState(false);
 
   const navigation = [
@@ -16,7 +16,7 @@ export const LoggedOutNavBar = () => {
     <nav className="w-full border-b bg-white md:static md:border-0">
       <div className="mx-auto max-w-screen-xl items-center px-4 md:flex md:px-8">
         <div className="flex items-center justify-between py-3 md:block md:py-5">
-          <Link href="#">
+          <Link href="navbar/logged-out#">
             <Image
               src="https://www.floatui.com/logo.svg"
               width={120}
@@ -87,4 +87,4 @@ export const LoggedOutNavBar = () => {
       </div>
     </nav>
   );
-};
+}

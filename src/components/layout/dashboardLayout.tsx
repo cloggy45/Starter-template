@@ -1,35 +1,43 @@
 import Sidebar from "@component/sidebar/Sidebar";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { Route } from "@component/layout/defaultLayout";
+import { useMediaQuery } from "~/hooks/useMediaQuery";
 
 interface DashboardLayoutProps {
   children: JSX.Element;
 }
 
-// TODO add responsive navbar using https://www.floatui.com/components/sidebars
 export function DashboardLayout({ children }: DashboardLayoutProps) {
+  const isMobile = useMediaQuery(768);
+  let styles = "flex-1";
+
+  if (isMobile) {
+    styles += " ml-20";
+  } else {
+    styles += " ml-80";
+  }
+
   const { data: session, status } = useSession();
   const router = useRouter();
   const user = session?.user;
 
-  // TODO https://stackoverflow.com/questions/67560587/how-to-protect-routes-in-next-js-next-auth
-  if (status === "loading") {
-    return <h1>Loading...</h1>;
-  }
-
   if (status === "unauthenticated") {
-    void router.push("/api/auth/signin");
+    void router.push(Route.LOGIN);
   }
 
   return (
     <div className={"flex"}>
       <div>
-        <Sidebar
-          fullname={user?.name ?? user?.email ?? ""}
-          imageUrl={user?.image ?? ""}
-        />
+        {status === "authenticated" ? (
+          <Sidebar
+            isMobile={isMobile}
+            displayName={user?.name ?? user?.email ?? ""}
+            profileImage={user?.image ?? ""}
+          />
+        ) : null}
       </div>
-      <div className={"ml-80 flex-1"}>
+      <div className={styles}>
         <main className={"mx-auto max-w-screen-xl px-4 md:px-8"}>
           {children}
         </main>

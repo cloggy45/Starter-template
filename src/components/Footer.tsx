@@ -10,7 +10,7 @@ export function Footer() {
         <div className="mt-6 sm:mt-0">
           <ul className="flex items-center space-x-4">
             <li className="flex h-10 w-10 items-center justify-center rounded-full border">
-              <Link href="#">
+              <Link href="navbar/footer#">
                 <svg
                   className="svg-icon h-6 w-6 text-blue-400"
                   viewBox="0 0 20 20"
@@ -24,7 +24,7 @@ export function Footer() {
             </li>
 
             <li className="flex h-10 w-10 items-center justify-center rounded-full border">
-              <Link href="#">
+              <Link href="navbar/footer#">
                 <svg
                   className="svg-icon h-6 w-6 text-blue-700"
                   viewBox="0 0 20 20"
@@ -38,7 +38,7 @@ export function Footer() {
             </li>
 
             <li className="flex h-10 w-10 items-center justify-center rounded-full border">
-              <Link href="#">
+              <Link href="navbar/footer#">
                 <svg
                   className="svg-icon h-6 w-6 text-blue-500"
                   viewBox="0 0 20 20"
@@ -52,7 +52,7 @@ export function Footer() {
             </li>
 
             <li className="flex h-10 w-10 items-center justify-center rounded-full border">
-              <Link href="#">
+              <Link href="navbar/footer#">
                 <svg
                   className="svg-icon h-6 w-6 text-red-600"
                   viewBox="0 0 20 20"
