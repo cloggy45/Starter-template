@@ -3,6 +3,7 @@ import { api } from "@utils/api";
 import { useSession } from "next-auth/react";
 import { Route } from "@component/layout/defaultLayout";
 import { PricingPlan } from "@component/pricing/PricingPlanFeatures";
+import CurrencyDisplay from "@component/CurrencyDisplay";
 
 type UpgradeButtonProps = {
   priceId: string;
@@ -75,7 +76,10 @@ export function LoggedOutPlans({ pricingPlans }: LoggedOutPlansProps) {
               <div className="space-y-4 border-b p-4 py-8 md:p-8">
                 <span className="font-medium text-indigo-600">{item.name}</span>
                 <div className="text-3xl font-semibold text-gray-800">
-                  ${item.price}{" "}
+                  <CurrencyDisplay
+                    value={item.price ?? 0}
+                    currency={item.currency}
+                  />
                   <span className="text-xl font-normal text-gray-600">/mo</span>
                 </div>
                 <p>{item.description}</p>

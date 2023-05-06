@@ -39,6 +39,7 @@ export function MobileSidebar({
               <Image
                 src={"https://floatui.com/logo-letter.png"}
                 width={35}
+                height={35}
                 alt={"reponsive logo"}
                 className={"mx-auto"}
               />

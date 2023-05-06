@@ -4,9 +4,7 @@ export function Footer() {
   return (
     <footer className="mx-auto max-w-screen-xl bg-white px-4 py-5 text-gray-500 md:px-8">
       <div className="mt-8 items-center justify-between py-6 sm:flex">
-        <div className="mt-4 sm:mt-0">
-          &copy; 2022 Float UI All rights reserved.
-        </div>
+        <div className="mt-4 sm:mt-0">&copy; 2022 All rights reserved.</div>
         <div className="mt-6 sm:mt-0">
           <ul className="flex items-center space-x-4">
             <li className="flex h-10 w-10 items-center justify-center rounded-full border">

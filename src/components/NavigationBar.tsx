@@ -74,6 +74,14 @@ export function NavigationBar() {
                 </li>
               );
             })}
+            <li
+              key={"getStarted"}
+              className={`text-gray-600 hover:text-indigo-600 ${
+                state ? "block" : "hidden"
+              } `}
+            >
+              <Link href={Route.SIGNUP}>{"Get started"}</Link>
+            </li>
           </ul>
         </div>
         <div className="hidden md:inline-block">
