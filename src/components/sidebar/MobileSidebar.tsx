@@ -36,10 +36,11 @@ export function MobileSidebar({
         <div className="flex h-full flex-col">
           <div className="flex h-20 items-center justify-center px-8">
             <a href="#" className="flex-none">
-              <img
-                src="https://floatui.com/logo-letter.png"
+              <Image
+                src={"https://floatui.com/logo-letter.png"}
                 width={35}
-                className="mx-auto"
+                alt={"reponsive logo"}
+                className={"mx-auto"}
               />
             </a>
           </div>
