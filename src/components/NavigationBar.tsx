@@ -16,14 +16,12 @@ export function NavigationBar() {
     <nav className="w-full border-b bg-white md:static md:border-0">
       <div className="mx-auto max-w-screen-xl items-center px-4 md:flex md:px-8">
         <div className="flex items-center justify-between py-3 md:block md:py-5">
-          <Link href="navbar/logged-out#">
-            <Image
-              src="https://www.floatui.com/logo.svg"
-              width={120}
-              height={50}
-              alt="Float UI logo"
-            />
-          </Link>
+          <Image
+            src="https://www.floatui.com/logo.svg"
+            width={120}
+            height={50}
+            alt="Float UI logo"
+          />
           <div className="md:hidden">
             <button
               className="rounded-md p-2 text-gray-700 outline-none focus:border focus:border-gray-400"

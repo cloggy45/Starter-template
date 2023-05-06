@@ -49,15 +49,13 @@ export function ExpandedSideBar({
       <nav className="fixed left-0 top-0 h-full w-full space-y-8 border-r bg-white sm:w-80">
         <div className="flex h-full flex-col">
           <div className="flex h-20 items-center px-8">
-            <Link href={"#"} className="flex-none">
-              <Image
-                alt={"logo"}
-                src="https://floatui.com/logo.svg"
-                width={140}
-                height={50}
-                className="mx-auto"
-              />
-            </Link>
+            <Image
+              alt={"logo"}
+              src="https://floatui.com/logo.svg"
+              width={140}
+              height={50}
+              className="mx-auto"
+            />
           </div>
           <div className="flex h-full flex-1 flex-col overflow-auto">
             <ul className="flex-1 px-4 text-sm font-medium">
