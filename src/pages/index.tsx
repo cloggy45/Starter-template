@@ -1,10 +1,10 @@
 import { DefaultLayout } from "@component/layout/defaultLayout";
+import { FeatureSectionWithCards } from "@component/features/FeatureSectionWithCards";
 
 function Page() {
-  // TODO redirect to features page
   return (
     <DefaultLayout>
-      <h1></h1>
+      <FeatureSectionWithCards />
     </DefaultLayout>
   );
 }
